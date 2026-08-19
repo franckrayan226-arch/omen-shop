@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-anton: 'Anton', sans-serif;
+  --font-fraunces: 'Fraunces', serif;
+  --font-manrope: 'Manrope', sans-serif;
+  --font-plexmono: 'IBM Plex Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  font-family: var(--font-manrope);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes omen-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.omen-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: omen-marquee 30s linear infinite;
+  will-change: transform;
+}
+
+.home-tile-title {
+  color: #0A0A0A;
+  transition: color 240ms ease;
+}
+
+.home-tile-text {
+  color: #8C8C8C;
+  transition: color 240ms ease;
+}
+
+.home-tile-cta {
+  transition: color 240ms ease;
+}
+
+.group:hover .home-tile-title {
+  color: #0A0A0A;
+  letter-spacing: 0.015em;
+}
+
+.group:hover .home-tile {
+  border-color: #0A0A0A !important;
+}
+
+.group:hover .home-tile-text {
+  color: #0A0A0A;
+  transform: translateX(8px);
+}
+
+.group:hover .home-tile-cta {
+  color: #0A0A0A !important;
+  transform: translateX(14px);
+}
+
+.group:focus-visible .home-tile {
+  outline: 2px solid #FF3B1F;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

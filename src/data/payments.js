@@ -6,52 +6,28 @@ export const payments = [
     name: 'Orange Money',
     logo: '/logos/orange-money.png',
     color: '#FF7900',
-    account: '70 00 00 01',
-    accountDigits: '70000001',
-    ussdTemplate: '*144*{numero}*{montant}#',
+    account: '76 64 84 02',
+    accountDigits: '76648402',
+    ussdTemplate: '*144*2*1*{numero}*{montant}#',
     hasUssd: true,
     appLabel: 'Composer le code USSD',
     appLink: '',
-    hint: "Composez le code, puis validez avec votre code PIN Orange Money."
+    hint: 'Composez le code USSD, puis validez avec votre code PIN Orange Money.'
   },
   {
-    id: 'moov',
-    name: 'Moov Money',
-    logo: '/logos/moov.png',
-    color: '#1A56A0',
-    account: '60 00 00 02',
-    accountDigits: '60000002',
-    ussdTemplate: '*555*{numero}*{montant}#',
-    hasUssd: true,
-    appLabel: 'Composer le code USSD',
-    appLink: '',
-    hint: "Composez le code, puis validez avec votre code PIN Moov Money."
-  },
-  {
-    id: 'telecel',
-    name: 'Telecel Money',
-    logo: '/logos/telecel.png',
+    id: 'bank',
+    name: 'Virement bancaire',
+    logo: '',
     color: '#0A0A0A',
-    account: '50 00 00 03',
-    accountDigits: '50000003',
-    ussdTemplate: '*808*{numero}*{montant}#',
-    hasUssd: true,
-    appLabel: 'Composer le code USSD',
-    appLink: '',
-    hint: "Composez le code, puis validez avec votre code PIN Telecel Money."
-  },
-  {
-    id: 'wave',
-    name: 'Wave',
-    logo: '/logos/wave.png',
-    color: '#1F8AF4',
-    account: '40 00 00 04',
-    accountDigits: '40000004',
+    account: '',
+    accountDigits: '',
     ussdTemplate: '',
     hasUssd: false,
-    appLabel: 'Ouvrir Wave',
-    appLink: 'https://wave.com',
-    hint: "Ouvrez Wave, transférez le montant vers le numéro ci-dessous, puis confirmez."
+    appLabel: '',
+    appLink: '',
+    accountLabel: 'Coordonnées bancaires',
+    hint: 'Effectuez le virement, puis envoyez la preuve sur WhatsApp.',
+    details: []
   }
 ];
 

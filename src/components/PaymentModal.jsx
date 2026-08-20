@@ -120,7 +120,13 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
                     className="flex-none flex items-center justify-center"
                     style={{ width: 44, height: 32, backgroundColor: '#FFFFFF', border: `1px solid ${border}` }}
                   >
-                    <img src={p.logo} alt={`Logo ${p.name}`} style={{ maxHeight: 20, maxWidth: 40 }} />
+                    {p.logo ? (
+                      <img src={p.logo} alt={`Logo ${p.name}`} style={{ maxHeight: 20, maxWidth: 40 }} />
+                    ) : (
+                      <span className="font-mono text-data-sm font-semibold" style={{ color: p.color }}>
+                        {p.name.charAt(0)}
+                      </span>
+                    )}
                   </span>
                   <span className="flex-1">
                     <span className="block font-manrope text-sm font-semibold" style={{ color: ink }}>
@@ -157,7 +163,13 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
                     className="flex-none flex items-center justify-center"
                     style={{ width: 44, height: 32, backgroundColor: '#FFFFFF', border: `1px solid ${border}` }}
                   >
-                    <img src={method.logo} alt={`Logo ${method.name}`} style={{ maxHeight: 20, maxWidth: 40 }} />
+                    {method.logo ? (
+                      <img src={method.logo} alt={`Logo ${method.name}`} style={{ maxHeight: 20, maxWidth: 40 }} />
+                    ) : (
+                      <span className="font-mono text-data-sm font-semibold" style={{ color: method.color }}>
+                        {method.name.charAt(0)}
+                      </span>
+                    )}
                   </span>
                   <span className="font-manrope text-sm font-semibold" style={{ color: ink }}>
                     {method.name}
@@ -184,7 +196,7 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
                 <div className="px-4 py-4 flex items-center justify-between">
                   <div>
                     <span className="block font-manrope text-label uppercase" style={{ color: gray }}>
-                      Créditez ce numéro
+                      {method.accountLabel || 'Créditez ce numéro'}
                     </span>
                     <span className="block font-mono text-data-lg mt-1" style={{ color: ink }}>
                       {method.account}
@@ -242,28 +254,39 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
                   <div className="mt-4" style={{ border: `1px solid ${border}`, backgroundColor: '#FFFFFF' }}>
                     <div className="px-4 py-3">
                       <span className="font-manrope text-label uppercase" style={{ color: gray }}>
-                        Numéro à créditer
+                        {method.accountLabel || 'Numéro à créditer'}
                       </span>
                       <span className="block font-mono text-data-lg mt-1" style={{ color: ink }}>
                         {method.account}
                       </span>
+                      {method.details && method.details.length > 0 && (
+                        <div className="mt-2 flex flex-col gap-1">
+                          {method.details.map((line, i) => (
+                            <span key={i} className="font-mono text-data-sm" style={{ color: gray }}>
+                              {line}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
-                    <a
-                      href={method.appLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block w-full py-4 text-center font-manrope text-sm font-semibold"
-                      style={{
-                        backgroundColor: method.color,
-                        color: '#FFFFFF',
-                        minHeight: 52,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    >
-                      {method.appLabel}
-                    </a>
+                    {method.appLink && (
+                      <a
+                        href={method.appLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full py-4 text-center font-manrope text-sm font-semibold"
+                        style={{
+                          backgroundColor: method.color,
+                          color: '#FFFFFF',
+                          minHeight: 52,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        {method.appLabel}
+                      </a>
+                    )}
                   </div>
                   <p className="font-manrope text-body mt-3" style={{ color: gray }}>
                     {method.hint}

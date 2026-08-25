@@ -1,4 +1,4 @@
-export const WHATSAPP_NUMBER = '22676154525';
+export const WHATSAPP_NUMBER = '22676648402';
 
 export const payments = [
   {
@@ -13,21 +13,6 @@ export const payments = [
     appLabel: 'Composer le code USSD',
     appLink: '',
     hint: 'Composez le code USSD, puis validez avec votre code PIN Orange Money.'
-  },
-  {
-    id: 'bank',
-    name: 'Virement bancaire',
-    logo: '',
-    color: '#0A0A0A',
-    account: '',
-    accountDigits: '',
-    ussdTemplate: '',
-    hasUssd: false,
-    appLabel: '',
-    appLink: '',
-    accountLabel: 'Coordonnées bancaires',
-    hint: 'Effectuez le virement, puis envoyez la preuve sur WhatsApp.',
-    details: []
   }
 ];
 

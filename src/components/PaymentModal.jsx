@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { payments, composeUssd, telUri, WHATSAPP_NUMBER } from '../data/payments';
-import { placeOrder } from '../lib/api';
+import { placeOrder, uploadProof } from '../lib/api';
 
 const ink = '#0A0A0A';
 const gray = '#8C8C8C';
@@ -15,6 +15,8 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
   const [step, setStep] = useState(0);
   const [method, setMethod] = useState(null);
   const [proof, setProof] = useState(null);
+  const [proofUrl, setProofUrl] = useState('');
+  const [proofState, setProofState] = useState('idle');
   const [copied, setCopied] = useState(false);
   const [orderState, setOrderState] = useState('idle');
 
@@ -39,6 +41,8 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
     setStep(0);
     setMethod(null);
     setProof(null);
+    setProofUrl('');
+    setProofState('idle');
     setCopied(false);
     setOrderState('idle');
     onClose();
@@ -58,7 +62,18 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => setProof(reader.result);
+    reader.onload = async () => {
+      setProof(reader.result);
+      setProofState('uploading');
+      setProofUrl('');
+      try {
+        const url = await uploadProof(reader.result, file.name);
+        setProofUrl(url);
+        setProofState('done');
+      } catch {
+        setProofState('error');
+      }
+    };
     reader.readAsDataURL(file);
   };
 
@@ -68,7 +83,8 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
       `• Montant : ${product.price}\n` +
       `• ${label} : ${size ?? 'non précisé'}\n` +
       `• Moyen : ${method?.name}\n` +
-      `• Compte crédité : ${method?.account}\n\n` +
+      `• Compte crédité : ${method?.account}\n` +
+      (proofUrl ? `• Preuve (lien) : ${proofUrl}\n\n` : `\n`) +
       `Voici la capture du paiement :`
   );
   const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
@@ -354,6 +370,17 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
                 )}
               </label>
 
+              {proofState === 'uploading' && (
+                <p className="font-manrope text-body mt-3 text-center" style={{ color: gray }}>
+                  Préparation de la capture…
+                </p>
+              )}
+              {proofState === 'error' && (
+                <p className="font-manrope text-body mt-3 text-center" style={{ color: '#FF3B1F' }}>
+                  Impossible d'envoyer la capture automatiquement — joignez-la à la main dans WhatsApp.
+                </p>
+              )}
+
               <a
                 href={waLink}
                 target="_blank"
@@ -371,7 +398,9 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
                 Envoyer la preuve sur WhatsApp
               </a>
               <p className="font-manrope text-body mt-3 text-center" style={{ color: gray }}>
-                Une fois WhatsApp ouvert, joignez la capture à la pièce jointe avant d'envoyer.
+                {proofUrl
+                  ? 'La capture est incluse dans le message sous forme de lien.'
+                  : 'Le lien WhatsApp n\'attache pas les images : si la capture n\'est pas incluse, joignez-la à la pièce jointe avant d\'envoyer.'}
               </p>
 
               {orderState === 'done' ? (

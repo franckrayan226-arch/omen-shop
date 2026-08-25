@@ -72,4 +72,15 @@ export async function placeOrder({ productId, size, qty = 1, method = '' }) {
   return data;
 }
 
+export async function uploadProof(dataUrl, filename) {
+  const res = await fetch(`${API_BASE}/api/proof`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: filename, data: dataUrl })
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'Preuve introuvable');
+  return data.url;
+}
+
 export default API_BASE;

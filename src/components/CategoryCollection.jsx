@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import VideoBackground from './VideoBackground';
 import ProductVisual from './ProductVisual';
 import { getProductsForSection } from '../lib/api';
+import { WHATSAPP_NUMBER } from '../data/payments';
 
 const reveal = {
   hidden: { opacity: 0, y: 12 },
@@ -105,7 +106,7 @@ const CategoryCollection = ({ section, title, intro, videoName, accent, font, da
               <h2 className={`${font} text-2xl sm:text-3xl`} style={{ color: ink, fontWeight: calm ? 600 : undefined }}>Une pièce vous parle ?</h2>
               <p className="font-manrope text-body mt-3 max-w-md" style={{ color: muted }}>Envoyez votre choix sur WhatsApp, nous confirmons la disponibilité et on finalise ensemble.</p>
             </div>
-            <a href="https://wa.me/22676154525?text=Bonjour%20OMEN%20SHOP%2C%20je%20souhaite%20commander%20un%20article." target="_blank" rel="noopener noreferrer" className="font-manrope text-label flex flex-none items-center justify-center uppercase" style={{ backgroundColor: accent, color: '#0A0A0A', minHeight: 52, padding: '0 28px' }}>Discuter sur WhatsApp</a>
+            <a href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Bonjour OMEN SHOP, je souhaite commander un article.')}`} target="_blank" rel="noopener noreferrer" className="font-manrope text-label flex flex-none items-center justify-center uppercase" style={{ backgroundColor: accent, color: '#0A0A0A', minHeight: 52, padding: '0 28px' }}>Discuter sur WhatsApp</a>
           </div>
           <div className="mt-6"><Link to="/" className="font-manrope text-body" style={{ color: muted }}>Retour à l'accueil</Link></div>
         </div>

@@ -1,5 +1,5 @@
-import CategoryCollection from '../components/CategoryCollection';
+import ModeCollection from '../components/ModeCollection';
 
-const Mode = () => <CategoryCollection section="mode" title="MODE" intro="Sneakers exclusives et streetwear premium, sélectionnés pour leur héritage et leur style." videoName="mode" accent="#FF3B1F" font="font-anton" bandWords={['SNEAKERS', 'STREETWEAR', 'ÉDITION LIMITÉE', 'CURATED']} marqueeDuration={30} />;
+const Mode = () => <ModeCollection section="mode" />;
 
 export default Mode;

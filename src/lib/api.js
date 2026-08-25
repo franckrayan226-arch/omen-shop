@@ -49,15 +49,19 @@ export async function getProductBySlug(section, slug) {
   return all.find((p) => p.section === section && p.slug === slug) || null;
 }
 
+let visitsDisabled = false;
+
 export async function trackVisit(path) {
+  if (visitsDisabled) return;
   try {
-    await fetch(`${API_BASE}/api/visits`, {
+    const res = await fetch(`${API_BASE}/api/visits`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ path })
     });
+    if (!res.ok) visitsDisabled = true;
   } catch {
-    // silencieux
+    visitsDisabled = true;
   }
 }
 

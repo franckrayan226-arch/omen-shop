@@ -31,8 +31,13 @@ const Navigation = () => {
       animate="visible"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
-        <Link to="/" className="font-anton text-xl sm:text-2xl" style={{ color: '#0A0A0A' }}>
-          OMEN SHOP
+        <Link to="/" className="flex items-baseline gap-1.5" aria-label="OMEN SHOP — Accueil">
+          <span className="font-anton text-xl tracking-tight sm:text-2xl" style={{ color: '#0A0A0A' }}>
+            OMEN
+          </span>
+          <span className="font-fraunces text-lg italic sm:text-xl" style={{ color: '#FF3B1F' }}>
+            shop
+          </span>
         </Link>
         
         <div className="flex items-center gap-4 ml-3 sm:gap-8 no-scrollbar overflow-x-auto">

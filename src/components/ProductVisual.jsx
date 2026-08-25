@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 
 const colorFilters = {
-  '#FF3B1F': 'hue-rotate(335deg) saturate(1.18)',
+  '#FF3B1F': 'none',
   '#F1CCCC': 'hue-rotate(315deg) saturate(0.68) brightness(1.12)',
   '#1E3A5F': 'hue-rotate(175deg) saturate(0.9) brightness(0.78)',
   '#23365C': 'hue-rotate(178deg) saturate(0.82) brightness(0.76)',

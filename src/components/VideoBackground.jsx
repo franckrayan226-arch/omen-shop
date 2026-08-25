@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-const VideoBackground = ({ videoName, overlayOpacity = 0.45 }) => {
+const VideoBackground = ({ videoName, overlayOpacity = 0.45, variant = 'fixed' }) => {
   const videoRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -45,7 +45,7 @@ const VideoBackground = ({ videoName, overlayOpacity = 0.45 }) => {
   return (
     <div
       className="pointer-events-none overflow-hidden"
-      style={{ position: 'fixed', inset: 0, zIndex: 0, backgroundColor: '#0A0A0A' }}
+      style={{ position: variant === 'absolute' ? 'absolute' : 'fixed', inset: 0, zIndex: 0, backgroundColor: '#0A0A0A' }}
     >
       <video
         key={videoName}

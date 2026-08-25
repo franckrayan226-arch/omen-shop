@@ -36,6 +36,186 @@ body {
   display: none;
 }
 
+::selection {
+  background: #FF3B1F;
+  color: #FFFFFF;
+}
+
+.omen-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+.text-stroke-faint {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.13);
+}
+
+.text-stroke-strong {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.9);
+}
+
+@keyframes omen-float {
+  0%,
+  100% {
+    transform: translateY(-9px);
+  }
+  50% {
+    transform: translateY(9px);
+  }
+}
+
+.omen-float {
+  animation: omen-float 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes omen-float-slow {
+  0%,
+  100% {
+    transform: translateY(-6px);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+.omen-float-slow {
+  animation: omen-float-slow 10s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes omen-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.16);
+    opacity: 0.8;
+  }
+}
+
+.omen-breathe {
+  animation: omen-breathe 9s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes omen-drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(4%, -6%) scale(1.08);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.omen-drift {
+  animation: omen-drift 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+.omen-drift-slow {
+  animation: omen-drift 30s ease-in-out infinite reverse;
+  will-change: transform;
+}
+
+.dots-blue {
+  background-image: radial-gradient(circle, rgba(29, 78, 216, 0.3) 1.4px, transparent 1.4px);
+  background-size: 15px 15px;
+}
+
+.dots-soft {
+  background-image: radial-gradient(circle, rgba(11, 13, 18, 0.055) 1.2px, transparent 1.2px);
+  background-size: 20px 20px;
+}
+
+.dots-white {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.13) 1.3px, transparent 1.3px);
+  background-size: 18px 18px;
+}
+
+@keyframes omen-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.07);
+  }
+}
+
+.omen-pulse {
+  animation: omen-pulse 7s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes omen-breathe-card {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.012);
+  }
+}
+
+.omen-breathe-card {
+  animation: omen-breathe-card 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes tri-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.tri-panel {
+  animation: tri-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 450ms ease, border-color 300ms ease;
+}
+
+@keyframes omen-deck {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--rot, 0deg));
+  }
+  50% {
+    transform: translateY(-11px) rotate(var(--rot, 0deg));
+  }
+}
+
+.deck-card {
+  animation: omen-deck 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes omen-marquee-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+.omen-marquee-y {
+  animation: omen-marquee-y 18s linear infinite;
+  will-change: transform;
+}
+
 @keyframes omen-marquee {
   from {
     transform: translateX(0);

@@ -1,5 +1,5 @@
-import CategoryCollection from '../components/CategoryCollection';
+import BienEtreCollection from '../components/BienEtreCollection';
 
-const Bienetre = () => <CategoryCollection section="bienetre" title="BIEN-ÊTRE" intro="Une sélection de soins pour construire un rituel personnel, simple et généreux." videoName="bienetre" accent="#7A8B5C" font="font-fraunces" calm bandWords={['RITUEL', 'SOIN', 'ESSENTIELS', 'SIMPLICITÉ']} marqueeDuration={45} />;
+const Bienetre = () => <BienEtreCollection section="bienetre" />;
 
 export default Bienetre;

@@ -1,12 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-anton: 'Anton', sans-serif;
-  --font-fraunces: 'Fraunces', serif;
-  --font-manrope: 'Manrope', sans-serif;
-  --font-plexmono: 'IBM Plex Mono', monospace;
+  --font-display: 'Inter Tight', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 * {
@@ -15,15 +16,21 @@
   box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
   overflow-x: clip;
 }
 
 body {
-  font-family: var(--font-manrope);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #FAFAF7;
+  color: #0A0A0A;
+}
+
+::selection {
+  background: #FF3B1F;
+  color: #FFFFFF;
 }
 
 .no-scrollbar {
@@ -36,244 +43,36 @@ body {
   display: none;
 }
 
-::selection {
-  background: #FF3B1F;
-  color: #FFFFFF;
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.omen-grain {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+.animate-fade-in {
+  animation: fade-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
-.text-stroke-faint {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.13);
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-.text-stroke-strong {
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.9);
+.animate-slide-in-left {
+  animation: slide-in-left 0.35s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
-@keyframes omen-float {
-  0%,
-  100% {
-    transform: translateY(-9px);
-  }
-  50% {
-    transform: translateY(9px);
-  }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
-.omen-float {
-  animation: omen-float 7s ease-in-out infinite;
+.animate-marquee {
+  animation: marquee 25s linear infinite;
   will-change: transform;
-}
-
-@keyframes omen-float-slow {
-  0%,
-  100% {
-    transform: translateY(-6px);
-  }
-  50% {
-    transform: translateY(6px);
-  }
-}
-
-.omen-float-slow {
-  animation: omen-float-slow 10s ease-in-out infinite;
-  will-change: transform;
-}
-
-@keyframes omen-breathe {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.45;
-  }
-  50% {
-    transform: scale(1.16);
-    opacity: 0.8;
-  }
-}
-
-.omen-breathe {
-  animation: omen-breathe 9s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
-@keyframes omen-drift {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(4%, -6%) scale(1.08);
-  }
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-}
-
-.omen-drift {
-  animation: omen-drift 22s ease-in-out infinite;
-  will-change: transform;
-}
-
-.omen-drift-slow {
-  animation: omen-drift 30s ease-in-out infinite reverse;
-  will-change: transform;
-}
-
-.dots-blue {
-  background-image: radial-gradient(circle, rgba(29, 78, 216, 0.3) 1.4px, transparent 1.4px);
-  background-size: 15px 15px;
-}
-
-.dots-soft {
-  background-image: radial-gradient(circle, rgba(11, 13, 18, 0.055) 1.2px, transparent 1.2px);
-  background-size: 20px 20px;
-}
-
-.dots-white {
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.13) 1.3px, transparent 1.3px);
-  background-size: 18px 18px;
-}
-
-@keyframes omen-pulse {
-  0%,
-  100% {
-    opacity: 0.35;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.75;
-    transform: scale(1.07);
-  }
-}
-
-.omen-pulse {
-  animation: omen-pulse 7s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
-@keyframes omen-breathe-card {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.012);
-  }
-}
-
-.omen-breathe-card {
-  animation: omen-breathe-card 7s ease-in-out infinite;
-  will-change: transform;
-}
-
-@keyframes tri-in {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.tri-panel {
-  animation: tri-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 450ms ease, border-color 300ms ease;
-}
-
-@keyframes omen-deck {
-  0%,
-  100% {
-    transform: translateY(0) rotate(var(--rot, 0deg));
-  }
-  50% {
-    transform: translateY(-11px) rotate(var(--rot, 0deg));
-  }
-}
-
-.deck-card {
-  animation: omen-deck 8s ease-in-out infinite;
-  will-change: transform;
-}
-
-@keyframes omen-marquee-y {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-50%);
-  }
-}
-
-.omen-marquee-y {
-  animation: omen-marquee-y 18s linear infinite;
-  will-change: transform;
-}
-
-@keyframes omen-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.omen-marquee-track {
-  display: flex;
-  width: max-content;
-  animation: omen-marquee 30s linear infinite;
-  will-change: transform;
-}
-
-.home-tile-title {
-  color: #0A0A0A;
-  transition: color 240ms ease;
-}
-
-.home-tile-text {
-  color: #8C8C8C;
-  transition: color 240ms ease;
-}
-
-.home-tile-cta {
-  transition: color 240ms ease;
-}
-
-.group:hover .home-tile-title {
-  color: #0A0A0A;
-  letter-spacing: 0.015em;
-}
-
-.group:hover .home-tile {
-  border-color: #0A0A0A !important;
-}
-
-.group:hover .home-tile-text {
-  color: #0A0A0A;
-  transform: translateX(8px);
-}
-
-.group:hover .home-tile-cta {
-  color: #0A0A0A !important;
-  transform: translateX(14px);
-}
-
-.group:focus-visible .home-tile {
-  outline: 2px solid #FF3B1F;
-  outline-offset: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

@@ -1,12 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { trackVisit } from './lib/api';
+import AnnouncementBar from './components/AnnouncementBar';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import Mode from './pages/Mode';
-import Bienetre from './pages/Bienetre';
-import Electronique from './pages/Electronique';
 import Boutique from './pages/Boutique';
 import Favoris from './pages/Favoris';
 import Compte from './pages/Compte';
@@ -34,18 +32,17 @@ function App() {
       <div className="min-h-screen">
         <VisitTracker />
         <ScrollToTop />
-        <Navigation />
+        <div className="sticky top-0 z-50">
+          <AnnouncementBar />
+          <Navigation />
+        </div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/boutique" element={<Boutique />} />
+          <Route path="/boutique/:section" element={<Boutique />} />
           <Route path="/favoris" element={<Favoris />} />
           <Route path="/compte" element={<Compte />} />
-          <Route path="/mode" element={<Mode />} />
-          <Route path="/bienetre" element={<Bienetre />} />
-          <Route path="/electronique" element={<Electronique />} />
-          <Route path="/mode/:slug" element={<ProductDetail section="mode" />} />
-          <Route path="/bienetre/:slug" element={<ProductDetail section="bienetre" />} />
-          <Route path="/electronique/:slug" element={<ProductDetail section="electronique" />} />
+          <Route path="/produit/:slug" element={<ProductDetail />} />
         </Routes>
         <Footer />
       </div>

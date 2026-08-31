@@ -3,11 +3,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { payments, composeUssd, telUri, WHATSAPP_NUMBER } from '../data/payments';
 import { placeOrder, uploadProof } from '../lib/api';
 
-const ink = '#0A0A0A';
-const gray = '#8C8C8C';
-const border = '#E2E2E2';
-const accent = '#FF3B1F';
-
 const SectionLabel = ({ section }) =>
   section === 'mode' ? 'pointure' : section === 'bienetre' ? 'format' : 'version';
 
@@ -91,8 +86,7 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center"
-      style={{ backgroundColor: 'rgba(10,10,10,0.55)' }}
+      className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center bg-ink/55"
       onClick={close}
       role="dialog"
       aria-modal="true"
@@ -101,8 +95,7 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
         {step === 0 && (
           <motion.div
             key="choose"
-            className="w-full max-w-md"
-            style={{ backgroundColor: '#FAFAFA', border: `1px solid ${border}` }}
+            className="w-full max-w-md bg-bg border border-border"
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 40, opacity: 0 }}
@@ -110,13 +103,13 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="px-6 pt-6 pb-2">
-              <p className="font-mono text-label uppercase" style={{ color: accent }}>
+              <p className="font-mono text-label uppercase text-accent">
                 Paiement sécurisé
               </p>
-              <h2 className="font-anton text-3xl mt-1" style={{ color: ink }}>
+              <h2 className="font-display text-display-md font-bold text-ink mt-1">
                 Choisissez votre moyen
               </h2>
-              <p className="font-manrope text-body mt-2" style={{ color: gray }}>
+              <p className="font-body text-sm text-ink-muted mt-2">
                 {product.name} — {product.price}
               </p>
             </div>
@@ -129,32 +122,30 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
                     setMethod(p);
                     setStep(1);
                   }}
-                  className="w-full flex items-center gap-4 px-6 py-4 text-left"
-                  style={{ borderTop: `1px solid ${border}`, minHeight: 60 }}
+                  className="w-full flex items-center gap-4 px-6 py-4 text-left border-t border-border hover:bg-sidebar/50 transition-colors"
+                  style={{ minHeight: 60 }}
                 >
                   <span
-                    className="flex-none flex items-center justify-center"
-                    style={{ width: 44, height: 32, backgroundColor: '#FFFFFF', border: `1px solid ${border}` }}
+                    className="flex-none flex items-center justify-center bg-white border border-border"
+                    style={{ width: 44, height: 32 }}
                   >
                     {p.logo ? (
                       <img src={p.logo} alt={`Logo ${p.name}`} style={{ maxHeight: 20, maxWidth: 40 }} />
                     ) : (
-                      <span className="font-mono text-data-sm font-semibold" style={{ color: p.color }}>
+                      <span className="font-mono text-sm font-semibold" style={{ color: p.color }}>
                         {p.name.charAt(0)}
                       </span>
                     )}
                   </span>
                   <span className="flex-1">
-                    <span className="block font-manrope text-sm font-semibold" style={{ color: ink }}>
+                    <span className="block font-body text-sm font-semibold text-ink">
                       {p.name}
                     </span>
-                    <span className="block font-mono text-data-sm" style={{ color: gray }}>
+                    <span className="block font-mono text-xs text-ink-muted">
                       {p.account}
                     </span>
                   </span>
-                  <span className="font-mono text-data" style={{ color: gray }}>
-                    →
-                  </span>
+                  <span className="font-mono text-sm text-ink-muted">→</span>
                 </button>
               ))}
             </div>
@@ -164,8 +155,7 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
         {step === 1 && (
           <motion.div
             key="pay"
-            className="w-full max-w-md"
-            style={{ backgroundColor: '#FAFAFA', border: `1px solid ${border}` }}
+            className="w-full max-w-md bg-bg border border-border"
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 40, opacity: 0 }}
@@ -176,52 +166,52 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span
-                    className="flex-none flex items-center justify-center"
-                    style={{ width: 44, height: 32, backgroundColor: '#FFFFFF', border: `1px solid ${border}` }}
+                    className="flex-none flex items-center justify-center bg-white border border-border"
+                    style={{ width: 44, height: 32 }}
                   >
                     {method.logo ? (
                       <img src={method.logo} alt={`Logo ${method.name}`} style={{ maxHeight: 20, maxWidth: 40 }} />
                     ) : (
-                      <span className="font-mono text-data-sm font-semibold" style={{ color: method.color }}>
+                      <span className="font-mono text-sm font-semibold" style={{ color: method.color }}>
                         {method.name.charAt(0)}
                       </span>
                     )}
                   </span>
-                  <span className="font-manrope text-sm font-semibold" style={{ color: ink }}>
+                  <span className="font-body text-sm font-semibold text-ink">
                     {method.name}
                   </span>
                 </div>
                 <button
                   onClick={() => setStep(0)}
-                  className="font-manrope text-label uppercase"
-                  style={{ color: gray, minHeight: 44 }}
+                  className="font-body text-xs font-medium text-ink-muted hover:text-ink transition-colors"
+                  style={{ minHeight: 44 }}
                 >
                   ← Changer
                 </button>
               </div>
 
-              <div className="mt-5" style={{ border: `1px solid ${border}` }}>
-                <div className="px-4 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${border}` }}>
-                  <span className="font-manrope text-label uppercase" style={{ color: gray }}>
+              <div className="mt-5 border border-border">
+                <div className="px-4 py-4 flex items-center justify-between border-b border-border">
+                  <span className="font-body text-xs font-medium uppercase tracking-wider text-ink-muted">
                     Montant à payer
                   </span>
-                  <span className="font-mono text-data" style={{ color: ink }}>
+                  <span className="font-mono text-sm font-medium text-ink" style={{ fontVariantNumeric: 'tabular-nums' }}>
                     {product.price}
                   </span>
                 </div>
                 <div className="px-4 py-4 flex items-center justify-between">
                   <div>
-                    <span className="block font-manrope text-label uppercase" style={{ color: gray }}>
+                    <span className="block font-body text-xs font-medium uppercase tracking-wider text-ink-muted">
                       {method.accountLabel || 'Créditez ce numéro'}
                     </span>
-                    <span className="block font-mono text-data-lg mt-1" style={{ color: ink }}>
+                    <span className="block font-mono text-lg font-medium text-ink mt-1" style={{ fontVariantNumeric: 'tabular-nums' }}>
                       {method.account}
                     </span>
                   </div>
                   <button
                     onClick={() => copy(method.account)}
-                    className="font-manrope text-label uppercase"
-                    style={{ color: accent, minHeight: 44 }}
+                    className="font-body text-xs font-medium text-accent hover:underline"
+                    style={{ minHeight: 44 }}
                   >
                     {copied ? 'Copié ✓' : 'Copier'}
                   </button>
@@ -230,55 +220,45 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
 
               {method.hasUssd ? (
                 <>
-                  <div className="mt-4" style={{ border: `1px solid ${border}`, backgroundColor: '#FFFFFF' }}>
+                  <div className="mt-4 border border-border bg-white">
                     <div className="px-4 py-3 flex items-center justify-between gap-3">
-                      <span
-                        className="font-mono text-data-sm"
-                        style={{ color: ink, wordBreak: 'break-all' }}
-                      >
+                      <span className="font-mono text-sm text-ink break-all">
                         {ussd}
                       </span>
                       <button
                         onClick={() => copy(ussd)}
-                        className="flex-none font-manrope text-label uppercase"
-                        style={{ color: accent, minHeight: 44 }}
+                        className="flex-none font-body text-xs font-medium text-accent hover:underline"
+                        style={{ minHeight: 44 }}
                       >
                         {copied ? 'Copié ✓' : 'Copier'}
                       </button>
                     </div>
                     <a
                       href={telUri(ussd)}
-                      className="block w-full py-4 text-center font-manrope text-sm font-semibold"
-                      style={{
-                        backgroundColor: accent,
-                        color: '#FFFFFF',
-                        minHeight: 52,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
+                      className="block w-full py-4 text-center font-body text-sm font-semibold bg-accent text-white"
+                      style={{ minHeight: 52, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                     >
                       {method.appLabel}
                     </a>
                   </div>
-                  <p className="font-manrope text-body mt-3" style={{ color: gray }}>
+                  <p className="font-body text-sm text-ink-muted mt-3">
                     {method.hint}
                   </p>
                 </>
               ) : (
                 <>
-                  <div className="mt-4" style={{ border: `1px solid ${border}`, backgroundColor: '#FFFFFF' }}>
+                  <div className="mt-4 border border-border bg-white">
                     <div className="px-4 py-3">
-                      <span className="font-manrope text-label uppercase" style={{ color: gray }}>
+                      <span className="font-body text-xs font-medium uppercase tracking-wider text-ink-muted">
                         {method.accountLabel || 'Numéro à créditer'}
                       </span>
-                      <span className="block font-mono text-data-lg mt-1" style={{ color: ink }}>
+                      <span className="block font-mono text-lg font-medium text-ink mt-1" style={{ fontVariantNumeric: 'tabular-nums' }}>
                         {method.account}
                       </span>
                       {method.details && method.details.length > 0 && (
                         <div className="mt-2 flex flex-col gap-1">
                           {method.details.map((line, i) => (
-                            <span key={i} className="font-mono text-data-sm" style={{ color: gray }}>
+                            <span key={i} className="font-mono text-xs text-ink-muted">
                               {line}
                             </span>
                           ))}
@@ -290,21 +270,14 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
                         href={method.appLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block w-full py-4 text-center font-manrope text-sm font-semibold"
-                        style={{
-                          backgroundColor: method.color,
-                          color: '#FFFFFF',
-                          minHeight: 52,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}
+                        className="block w-full py-4 text-center font-body text-sm font-semibold text-white"
+                        style={{ backgroundColor: method.color, minHeight: 52, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                       >
                         {method.appLabel}
                       </a>
                     )}
                   </div>
-                  <p className="font-manrope text-body mt-3" style={{ color: gray }}>
+                  <p className="font-body text-sm text-ink-muted mt-3">
                     {method.hint}
                   </p>
                 </>
@@ -312,13 +285,8 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
 
               <button
                 onClick={() => setStep(2)}
-                className="block w-full mt-5 py-4 text-center font-manrope text-sm font-semibold"
-                style={{
-                  border: `1px solid ${ink}`,
-                  backgroundColor: '#FFFFFF',
-                  color: ink,
-                  minHeight: 52
-                }}
+                className="block w-full mt-5 py-4 text-center font-body text-sm font-semibold border border-ink text-ink hover:bg-ink hover:text-white transition-colors"
+                style={{ minHeight: 52 }}
               >
                 J'ai effectué le paiement →
               </button>
@@ -329,8 +297,7 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
         {step === 2 && (
           <motion.div
             key="proof"
-            className="w-full max-w-md"
-            style={{ backgroundColor: '#FAFAFA', border: `1px solid ${border}` }}
+            className="w-full max-w-md bg-bg border border-border"
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 40, opacity: 0 }}
@@ -338,32 +305,25 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="px-6 pt-6 pb-6">
-              <p className="font-mono text-label uppercase" style={{ color: accent }}>
+              <p className="font-mono text-label uppercase text-accent">
                 Dernière étape
               </p>
-              <h2 className="font-anton text-3xl mt-1" style={{ color: ink }}>
+              <h2 className="font-display text-display-md font-bold text-ink mt-1">
                 Preuve de paiement
               </h2>
-              <p className="font-manrope text-body mt-2" style={{ color: gray }}>
+              <p className="font-body text-sm text-ink-muted mt-2">
                 Capturez votre écran de confirmation et envoyez-la. Nous validons votre commande
                 dans les plus brefs délais.
               </p>
 
-              <label
-                className="mt-5 flex items-center justify-center border-2 border-dashed py-8"
-                style={{ borderColor: '#C9C9C9', cursor: 'pointer' }}
-              >
+              <label className="mt-5 flex items-center justify-center border-2 border-dashed border-ink-muted/30 rounded py-8 cursor-pointer hover:border-ink-muted/50 transition-colors">
                 <input type="file" accept="image/*" onChange={onPickFile} className="hidden" />
                 {proof ? (
-                  <img
-                    src={proof}
-                    alt="Aperçu de la capture"
-                    className="max-h-56 object-contain"
-                  />
+                  <img src={proof} alt="Aperçu de la capture" className="max-h-56 object-contain" />
                 ) : (
-                  <span className="font-manrope text-label uppercase text-center" style={{ color: gray }}>
+                  <span className="font-body text-sm text-ink-muted text-center">
                     + Ajouter la capture
-                    <span className="block font-manrope text-body mt-2 normal-case" style={{ color: gray }}>
+                    <span className="block text-xs mt-1 text-ink-muted/70">
                       Photo ou capture d'écran du reçu
                     </span>
                   </span>
@@ -371,12 +331,12 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
               </label>
 
               {proofState === 'uploading' && (
-                <p className="font-manrope text-body mt-3 text-center" style={{ color: gray }}>
+                <p className="font-body text-sm text-ink-muted mt-3 text-center">
                   Préparation de la capture…
                 </p>
               )}
               {proofState === 'error' && (
-                <p className="font-manrope text-body mt-3 text-center" style={{ color: '#FF3B1F' }}>
+                <p className="font-body text-sm text-accent mt-3 text-center">
                   Impossible d'envoyer la capture automatiquement — joignez-la à la main dans WhatsApp.
                 </p>
               )}
@@ -385,40 +345,27 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
                 href={waLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full mt-5 py-4 text-center font-manrope text-sm font-semibold"
-                style={{
-                  backgroundColor: '#25D366',
-                  color: '#FFFFFF',
-                  minHeight: 52,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
+                className="block w-full mt-5 py-4 text-center font-body text-sm font-semibold bg-[#25D366] text-white"
+                style={{ minHeight: 52, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
               >
                 Envoyer la preuve sur WhatsApp
               </a>
-              <p className="font-manrope text-body mt-3 text-center" style={{ color: gray }}>
+              <p className="font-body text-sm text-ink-muted mt-3 text-center">
                 {proofUrl
                   ? 'La capture est incluse dans le message sous forme de lien.'
-                  : 'Le lien WhatsApp n\'attache pas les images : si la capture n\'est pas incluse, joignez-la à la pièce jointe avant d\'envoyer.'}
+                  : "Le lien WhatsApp n'attache pas les images : si la capture n'est pas incluse, joignez-la à la pièce jointe avant d'envoyer."}
               </p>
 
               {orderState === 'done' ? (
-                <p className="font-manrope text-body mt-4 text-center font-semibold" style={{ color: '#7A8B5C' }}>
+                <p className="font-body text-sm font-semibold text-[#4C5B3C] mt-4 text-center">
                   Commande confirmée ✓ Le stock a été mis à jour.
                 </p>
               ) : (
                 <button
                   onClick={confirmOrder}
                   disabled={orderState === 'sending'}
-                  className="block w-full mt-3 py-4 text-center font-manrope text-sm font-semibold"
-                  style={{
-                    border: `1px solid ${ink}`,
-                    backgroundColor: '#FFFFFF',
-                    color: ink,
-                    minHeight: 52,
-                    opacity: orderState === 'sending' ? 0.6 : 1
-                  }}
+                  className="block w-full mt-3 py-4 text-center font-body text-sm font-semibold border border-ink text-ink hover:bg-ink hover:text-white transition-colors disabled:opacity-50"
+                  style={{ minHeight: 52 }}
                 >
                   {orderState === 'sending'
                     ? 'Confirmation en cours…'
@@ -430,8 +377,8 @@ const PaymentModal = ({ open, onClose, product, section, size }) => {
 
               <button
                 onClick={close}
-                className="block w-full mt-2 py-3 text-center font-manrope text-label uppercase"
-                style={{ color: gray, minHeight: 44 }}
+                className="block w-full mt-2 py-3 text-center font-body text-xs font-medium uppercase tracking-wider text-ink-muted hover:text-ink transition-colors"
+                style={{ minHeight: 44 }}
               >
                 Fermer
               </button>

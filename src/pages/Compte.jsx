@@ -1,15 +1,13 @@
 const Compte = () => {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
-      <div className="relative z-10 pt-28 pb-32 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="font-anton text-4xl mb-3" style={{ color: '#0A0A0A' }}>
-            COMPTE
-          </h1>
-          <p className="font-manrope text-sm" style={{ color: '#8C8C8C' }}>
-            L'espace membre arrive bientôt.
-          </p>
-        </div>
+    <div className="min-h-screen bg-bg">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-20 text-center">
+        <h1 className="font-display text-display-md font-bold text-ink">
+          Compte
+        </h1>
+        <p className="mt-3 font-body text-sm text-ink-muted">
+          L'espace membre arrive bientôt.
+        </p>
       </div>
     </div>
   );

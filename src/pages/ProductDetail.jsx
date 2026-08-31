@@ -1,46 +1,12 @@
-import { motion } from 'framer-motion';
-import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { getProductBySlug } from '../lib/api';
+import { normalizeString } from '../data/products';
 import ProductVisual from '../components/ProductVisual';
 import PaymentModal from '../components/PaymentModal';
 
-const PALE_PINK = '#F1CCCC';
-
-const SneakerGlyph = () => (
-  <svg
-    width="100%"
-    height="100%"
-    viewBox="0 0 340 240"
-    preserveAspectRatio="xMidYMid meet"
-    style={{ maxWidth: '88%' }}
-  >
-    {/* Ombre au sol */}
-    <ellipse cx="170" cy="205" rx="150" ry="12" fill="#EDEDED" />
-    {/* Semelle */}
-    <path
-      d="M 30 170 L 300 170 Q 312 170 312 180 L 312 188 Q 312 198 300 198 L 30 198 Q 18 198 18 188 L 18 180 Q 18 170 30 170 Z"
-      fill="#DCDCDC"
-    />
-    {/* Tige / silhouette de profil, orientée vers la droite */}
-    <path
-      d="M 36 170 L 36 122 Q 36 92 62 90 Q 86 88 104 98 L 146 122 Q 196 137 250 131 Q 300 126 310 150 Q 314 162 308 170 Z"
-      fill="#E8E8E8"
-      stroke="#C9C9C9"
-      strokeWidth="1.5"
-    />
-    {/* Ligne de lacets suggérée */}
-    <path
-      d="M 96 100 Q 120 106 140 120"
-      fill="none"
-      stroke="#CFCFCF"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-const ProductDetail = ({ section }) => {
+const ProductDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
 
@@ -52,25 +18,22 @@ const ProductDetail = ({ section }) => {
   useEffect(() => {
     let mounted = true;
     setProduct(null);
-    getProductBySlug(section, slug).then((p) => {
+    getProductBySlug(null, slug).then((p) => {
       if (mounted) setProduct(p);
     });
-    return () => {
-      mounted = false;
-    };
-  }, [section, slug]);
+    return () => { mounted = false; };
+  }, [slug]);
 
   const availableSizes = (product?.sizes || []).filter((s) => s.available);
 
-  const label =
-    section === 'mode' ? 'Pointures dispo' : section === 'bienetre' ? 'Formats' : 'Versions';
+  const sizeLabel =
+    product?.section === 'mode' ? 'Pointures' :
+    product?.section === 'bienetre' ? 'Formats' : 'Versions';
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-6">
-        <p className="text-sm" style={{ fontFamily: '"Manrope", sans-serif', color: '#8C8C8C' }}>
-          Chargement…
-        </p>
+      <div className="min-h-screen flex items-center justify-center bg-bg">
+        <p className="font-body text-sm text-ink-muted">Chargement…</p>
       </div>
     );
   }
@@ -79,191 +42,161 @@ const ProductDetail = ({ section }) => {
 
   return (
     <motion.div
-      className="min-h-screen flex flex-col"
-      style={{ backgroundColor: '#FFFFFF', paddingBottom: 'calc(100px + env(safe-area-inset-bottom))' }}
+      className="min-h-screen bg-bg"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.3 }}
     >
-      {/* En-tête : OMEN SHOP + slogan + ligne rose */}
-      <div className="relative px-6 pt-5 pb-2 text-center">
+      {/* Top bar */}
+      <div className="sticky top-0 z-40 flex items-center gap-3 border-b border-border bg-bg/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 h-[56px]">
         <button
+          type="button"
           onClick={() => navigate(-1)}
+          className="flex h-8 w-8 items-center justify-center rounded border border-border text-ink-muted hover:text-ink hover:border-ink transition-colors"
           aria-label="Retour"
-          className="absolute left-4 top-3 flex items-center justify-center"
-          style={{
-            width: 44,
-            height: 44,
-            background: 'none',
-            border: 'none',
-            color: '#8C8C8C',
-            cursor: 'pointer',
-            fontFamily: '"Manrope", sans-serif',
-            fontSize: 16
-          }}
         >
           ←
         </button>
-
-        <div
-          className="uppercase"
-          style={{
-            fontFamily: '"Anton", sans-serif',
-            fontSize: 22,
-            letterSpacing: '0.22em',
-            color: '#0A0A0A'
-          }}
-        >
-          OMEN SHOP
-        </div>
-        <div
-          className="mt-1.5 uppercase"
-          style={{
-            fontFamily: '"Manrope", sans-serif',
-            fontSize: 10,
-            letterSpacing: '0.42em',
-            color: '#B5B5B5',
-            fontWeight: 500
-          }}
-        >
-          Dare to be different
-        </div>
-        <div className="mx-auto mt-3" style={{ width: 32, height: 2, backgroundColor: PALE_PINK }} />
-      </div>
-
-      {/* Grande photo produit */}
-      <div className="px-4 mt-2">
-        <div
-          className="w-full flex items-center justify-center overflow-hidden"
-          style={{
-            backgroundColor: '#F7F7F7',
-            minHeight: 300,
-            padding: '20px 16px'
-          }}
-        >
-          {product.image ? (
-            <ProductVisual product={product} color={activeColor} className="w-full h-[260px] sm:h-[320px]" />
-          ) : (
-            <SneakerGlyph />
-          )}
-        </div>
-        {/* Ligne horizontale fine de séparation */}
-        <div className="h-px w-full" style={{ backgroundColor: '#E2E2E2' }} />
-      </div>
-
-      {/* Informations produit */}
-      <div className="px-6 pt-6">
-        <h1
-          className="uppercase"
-          style={{ fontFamily: '"Anton", sans-serif', fontSize: 42, color: '#0A0A0A' }}
-        >
-          {product.brand}
-        </h1>
-        <p className="mt-1.5" style={{ fontFamily: '"Manrope", sans-serif', fontSize: 13.5, color: '#6B6B6B' }}>
-          {product.name}
-        </p>
-        <p className="mt-3 font-manrope font-bold" style={{ fontSize: 20, color: '#0A0A0A' }}>
-          {product.price}
-        </p>
-        <p className="font-mono text-label mt-3 uppercase" style={{ color: product.stock <= 2 ? '#FF3B1F' : '#8C8C8C' }}>
-          {product.stock <= 0 ? 'Rupture de stock' : `Stock : ${product.stock}`}
-        </p>
-        {product.description && (
-          <p className="mt-1" style={{ fontFamily: '"Manrope", sans-serif', fontSize: 13, color: '#6B6B6B' }}>
-            {product.description}
+        <div className="flex-1 min-w-0">
+          <p className="font-mono text-[10px] font-medium uppercase tracking-wider text-ink-muted truncate">
+            {product.brand} / {product.section}
           </p>
-        )}
-        {product.colors?.length > 0 && (
-          <div className="mt-5 flex items-center gap-3">
-            <span className="font-manrope text-label uppercase" style={{ color: '#8C8C8C' }}>Couleur</span>
-            <div className="flex gap-2">
-              {product.colors.map((color) => (
-                <button key={color.name} type="button" onClick={() => setSelectedColor(color)} aria-label={color.name} aria-pressed={activeColor?.name === color.name} style={{ width: 24, height: 24, borderRadius: '50%', backgroundColor: color.hex, border: activeColor?.name === color.name ? '2px solid #0A0A0A' : '1px solid #E2E2E2', outline: '1px solid #FFFFFF', outlineOffset: -4, cursor: 'pointer' }} />
-              ))}
-            </div>
-            <span className="font-manrope text-label" style={{ color: '#8C8C8C' }}>{activeColor?.name}</span>
-          </div>
-        )}
-      </div>
-
-      {/* Sélection des tailles */}
-      <div className="px-6 pt-7">
-        <p
-          className="uppercase"
-          style={{
-            fontFamily: '"Manrope", sans-serif',
-            fontSize: 10,
-            letterSpacing: '0.3em',
-            color: '#A8A8A8',
-            fontWeight: 600
-          }}
-        >
-          {label}
-        </p>
-        <div className="mt-3 grid grid-cols-5 gap-2" style={{ maxWidth: 360 }}>
-          {availableSizes.map((s) => (
-            <button
-              key={s.size}
-              onClick={() => setSelectedSize(s.size)}
-              className="aspect-square flex items-center justify-center"
-              style={{
-                fontFamily: '"IBM Plex Mono", monospace',
-                fontSize: 13,
-                border: selectedSize === s.size ? '1px solid #0A0A0A' : '1px solid #E2E2E2',
-                backgroundColor: selectedSize === s.size ? '#F5F5F5' : '#FFFFFF',
-                color: selectedSize === s.size ? '#0A0A0A' : '#2B2B2B',
-                minHeight: 44,
-                cursor: 'pointer'
-              }}
-            >
-              {s.size}
-            </button>
-          ))}
         </div>
+        <Link
+          to="/boutique"
+          className="font-body text-sm font-medium text-ink-muted hover:text-ink transition-colors"
+        >
+          Boutique
+        </Link>
       </div>
 
-      <div className="flex-1" />
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+          {/* Image */}
+          <div className="rounded bg-[#F0EFEB] aspect-square flex items-center justify-center overflow-hidden">
+            {product.image ? (
+              <ProductVisual product={product} color={activeColor} className="w-full h-full" />
+            ) : (
+              <span className="text-6xl opacity-20">👟</span>
+            )}
+          </div>
 
-      {/* Barre de commande en bas de la zone visible */}
-      <div
-        className="fixed bottom-0 left-0 right-0"
-        style={{
-          backgroundColor: '#FFFFFF',
-          borderTop: '1px solid #F0F0F0',
-          padding: '14px 24px calc(14px + env(safe-area-inset-bottom))'
-        }}
-      >
-        <button
-          onClick={() => setPayOpen(true)}
-          className="flex items-center justify-center gap-3 py-3 w-full"
-          style={{
-            border: '1px solid #0A0A0A',
-            backgroundColor: '#FFFFFF',
-            minHeight: 52,
-            cursor: 'pointer'
-          }}
-        >
-          <span style={{ width: 8, height: 8, backgroundColor: PALE_PINK }} />
-          <span
-            className="uppercase"
-            style={{
-              fontFamily: '"Manrope", sans-serif',
-              fontSize: 12,
-              letterSpacing: '0.24em',
-              color: '#0A0A0A',
-              fontWeight: 600
-            }}
-          >
-            Sur commande
-          </span>
-        </button>
+          {/* Info */}
+          <div className="flex flex-col gap-4 sm:gap-5">
+            <div className="flex items-center gap-2">
+              {normalizeString(product.brand) !== 'omen' && (
+                <span className="font-mono text-label-xs font-medium uppercase tracking-wider text-ink-muted">
+                  {product.brand}
+                </span>
+              )}
+              {product.isNew && (
+                <span className="bg-ink px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-white">
+                  New
+                </span>
+              )}
+            </div>
+
+            <h1 className="font-display text-display-md font-bold text-ink leading-tight">
+              {product.name}
+            </h1>
+
+            <div className="flex items-baseline gap-3">
+              <span className="font-mono text-xl font-semibold text-ink" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                {product.price}
+              </span>
+              {product.oldPrice && (
+                <span className="font-mono text-sm text-ink-muted line-through" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                  {product.oldPrice}
+                </span>
+              )}
+            </div>
+
+            {product.description && (
+              <p className="font-body text-sm text-ink-muted leading-relaxed">
+                {product.description}
+              </p>
+            )}
+
+            {/* Colors */}
+            {product.colors?.length > 0 && (
+              <div>
+                <p className="font-mono text-label-xs font-medium uppercase tracking-wider text-ink-muted mb-3">
+                  Couleur — {activeColor?.name}
+                </p>
+                <div className="flex gap-3">
+                  {product.colors.map((color) => (
+                    <button
+                      key={color.name}
+                      type="button"
+                      onClick={() => setSelectedColor(color)}
+                      aria-label={color.name}
+                      aria-pressed={activeColor?.name === color.name}
+                      className={`h-8 w-8 rounded-full border-2 transition-all ${
+                        activeColor?.name === color.name
+                          ? 'border-ink scale-110'
+                          : 'border-border hover:border-ink-muted'
+                      }`}
+                      style={{ backgroundColor: color.hex }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Sizes */}
+            {availableSizes.length > 0 && (
+              <div>
+                <p className="font-mono text-label-xs font-medium uppercase tracking-wider text-ink-muted mb-3">
+                  {sizeLabel}
+                </p>
+                <div className="flex flex-wrap gap-2.5">
+                  {availableSizes.map((s) => (
+                    <button
+                      key={s.size}
+                      type="button"
+                      onClick={() => setSelectedSize(s.size)}
+                      className={`h-11 min-w-[44px] rounded px-3 font-mono text-sm transition-all ${
+                        selectedSize === s.size
+                          ? 'bg-ink text-white'
+                          : 'bg-white border border-border text-ink hover:border-ink-muted'
+                      }`}
+                    >
+                      {s.size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Meta */}
+            {product.meta && (
+              <p className="font-mono text-[10px] uppercase tracking-wider text-ink-muted">
+                {product.meta}
+              </p>
+            )}
+
+            {/* CTA */}
+            <div className="mt-auto pt-4">
+              <button
+                type="button"
+                onClick={() => setPayOpen(true)}
+                className="w-full rounded bg-ink py-4 font-body text-sm font-semibold text-white hover:bg-ink/90 transition-colors"
+              >
+                Commander — {product.price}
+              </button>
+              <p className="mt-3 text-center font-mono text-[10px] text-ink-muted">
+                Paiement en ligne · Livraison 24–48h
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <PaymentModal
         open={payOpen}
         onClose={() => setPayOpen(false)}
         product={product}
-        section={section}
+        section={product.section}
         size={selectedSize}
       />
     </motion.div>

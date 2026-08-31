@@ -1,57 +1,115 @@
 import { Link } from 'react-router-dom';
-import SocialLinks from './SocialLinks';
-
-const universes = [
-  { path: '/mode', label: 'MODE', font: 'font-anton' },
-  { path: '/bienetre', label: 'BIEN-ÊTRE', font: 'font-fraunces' },
-  { path: '/electronique', label: 'ÉLECTRONIQUE', font: 'font-mono' }
-];
+import { SECTIONS } from '../data/products';
+import Logo from './Logo';
 
 const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t" style={{ borderColor: '#E2E2E2', backgroundColor: '#FAFAFA' }}>
-      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
-        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+    <footer className="border-t border-border bg-bg">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          {/* Brand */}
           <div>
-            <p className="font-anton text-2xl" style={{ color: '#0A0A0A' }}>OMEN SHOP</p>
-            <p className="font-mono text-label mt-2" style={{ color: '#FF3B1F' }}>CURATED GOODS / {year}</p>
-            <p className="font-manrope text-body mt-4 max-w-xs" style={{ color: '#8C8C8C' }}>MODE, BIEN-ÊTRE et ÉLECTRONIQUE sélectionnés pièce par pièce, commande par WhatsApp.</p>
+            <Logo size="small" />
+            <p className="mt-3 font-body text-sm text-ink-muted max-w-[240px]">
+              Mode, soin & tech — sélection pièce par pièce. Commande par WhatsApp, livraison 24–48h.
+            </p>
           </div>
 
+          {/* Sections */}
           <div>
-            <p className="font-mono text-label mb-4" style={{ color: '#8C8C8C' }}>UNIVERS</p>
-            <ul className="space-y-3">
-              {universes.map((universe) => (
-                <li key={universe.path}>
-                  <Link to={universe.path} className={`${universe.font} text-body uppercase`} style={{ color: '#0A0A0A' }}>{universe.label}</Link>
+            <h3 className="font-display text-xs font-bold uppercase tracking-wider text-ink mb-4">
+              Sections
+            </h3>
+            <ul className="space-y-2.5">
+              {SECTIONS.map((s) => (
+                <li key={s.id}>
+                  <Link
+                    to={`/boutique/${s.id}`}
+                    className="font-body text-sm text-ink/70 hover:text-ink transition-colors"
+                  >
+                    {s.label}
+                  </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  to="/boutique"
+                  className="font-body text-sm text-ink/70 hover:text-ink transition-colors"
+                >
+                  Tout voir
+                </Link>
+              </li>
             </ul>
           </div>
 
+          {/* Boutique */}
           <div>
-            <p className="font-mono text-label mb-4" style={{ color: '#8C8C8C' }}>BOUTIQUE</p>
-            <ul className="space-y-3">
-              {[{ path: '/boutique', label: 'Tous les produits' }, { path: '/favoris', label: 'Favoris' }, { path: '/compte', label: 'Compte' }].map((item) => (
-                <li key={item.path}>
-                  <Link to={item.path} className="font-manrope text-body uppercase" style={{ color: '#0A0A0A' }}>{item.label}</Link>
-                </li>
-              ))}
+            <h3 className="font-display text-xs font-bold uppercase tracking-wider text-ink mb-4">
+              Boutique
+            </h3>
+            <ul className="space-y-2.5">
+              <li>
+                <Link to="/favoris" className="font-body text-sm text-ink/70 hover:text-ink transition-colors">
+                  Favoris
+                </Link>
+              </li>
+              <li>
+                <Link to="/compte" className="font-body text-sm text-ink/70 hover:text-ink transition-colors">
+                  Compte
+                </Link>
+              </li>
             </ul>
           </div>
 
+          {/* Contact */}
           <div>
-            <p className="font-mono text-label mb-4" style={{ color: '#8C8C8C' }}>SUIVEZ-NOUS</p>
-            <SocialLinks />
-            <p className="font-manrope text-body mt-5" style={{ color: '#8C8C8C' }}>WhatsApp : <span className="font-mono" style={{ color: '#0A0A0A' }}>+226 63 21 30 29</span></p>
+            <h3 className="font-display text-xs font-bold uppercase tracking-wider text-ink mb-4">
+              Contact
+            </h3>
+            <ul className="space-y-2.5">
+              <li>
+                <a
+                  href="https://wa.me/22663213029"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-body text-sm text-ink/70 hover:text-ink transition-colors"
+                >
+                  WhatsApp : +226 63 21 30 29
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.instagram.com/omenshopbf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-body text-sm text-ink/70 hover:text-ink transition-colors"
+                >
+                  Instagram
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.tiktok.com/@omenshopburkina"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-body text-sm text-ink/70 hover:text-ink transition-colors"
+                >
+                  TikTok
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t pt-6 sm:flex-row sm:items-center sm:justify-between" style={{ borderColor: '#E2E2E2' }}>
-          <p className="font-mono text-label" style={{ color: '#8C8C8C' }}>© {year} OMEN SHOP — TOUS DROITS RÉSERVÉS</p>
-          <p className="font-mono text-label" style={{ color: '#8C8C8C' }}>OUAGADOUGOU, BURKINA FASO</p>
+        <div className="mt-12 border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="font-mono text-label-xs text-ink-muted">
+            © {year} OMEN SHOP — TOUS DROITS RÉSERVÉS
+          </p>
+          <p className="font-mono text-label-xs text-ink-muted">
+            OUAGADOUGOU, BURKINA FASO
+          </p>
         </div>
       </div>
     </footer>
